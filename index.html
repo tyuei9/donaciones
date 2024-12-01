@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donaciones Solidarias</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://via.placeholder.com/1920x1080') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .form-container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #ffd700;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    input[type="text"], input[type="email"], input[type="number"], textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      background: #f1f1f1;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .message {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Haz tu Donación</h1>
+    <form id="donation-form">
+      <label for="name">Nombre completo:</label>
+      <input type="text" id="name" name="name" required placeholder="Ingresa tu nombre">
+
+      <label for="email">Correo electrónico:</label>
+      <input type="email" id="email" name="email" required placeholder="Ingresa tu correo">
+
+      <label for="amount">Monto de la donación (USD):</label>
+      <input type="number" id="amount" name="amount" required placeholder="Ingresa el monto" min="1">
+
+      <label for="message">Mensaje (opcional):</label>
+      <textarea id="message" name="message" rows="4" placeholder="Escribe un mensaje opcional"></textarea>
+
+      <button type="submit">Donar Ahora</button>
+    </form>
+
+    <div id="thank-you-message" class="message" style="display: none;">
+      ¡Gracias por tu generosa donación!
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('donation-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      // Mostrar mensaje de agradecimiento
+      document.getElementById('thank-you-message').style.display = 'block';
+
+      // Limpiar formulario
+      document.getElementById('donation-form').reset();
+    });
+  </script>
+</body>
+</html>
