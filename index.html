@@ -7,70 +7,32 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      text-align: center;
       margin: 0;
-      padding: 0;
-      background: url('https://via.placeholder.com/1920x1080') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      padding: 20px;
     }
 
     .form-container {
-      background: rgba(0, 0, 0, 0.8);
-      padding: 30px;
-      border-radius: 10px;
+      background: #ffffff;
+      padding: 20px;
+      margin: auto;
       max-width: 400px;
-      width: 90%;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    }
-
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      text-align: center;
-      color: #ffd700;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 1rem;
-    }
-
-    input[type="text"], input[type="email"], input[type="number"], textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0 15px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1rem;
-      background: #f1f1f1;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     button {
-      width: 100%;
-      padding: 12px;
-      background-color: #28a745;
-      color: #fff;
+      background: #28a745;
+      color: white;
       border: none;
+      padding: 10px;
       border-radius: 5px;
-      font-size: 1.2rem;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
 
     button:hover {
-      background-color: #218838;
-    }
-
-    .message {
-      margin-top: 20px;
-      text-align: center;
-      font-size: 1.2rem;
-      color: #ffd700;
+      background: #218838;
     }
   </style>
 </head>
@@ -78,35 +40,53 @@
   <div class="form-container">
     <h1>Haz tu Donación</h1>
     <form id="donation-form">
-      <label for="name">Nombre completo:</label>
-      <input type="text" id="name" name="name" required placeholder="Ingresa tu nombre">
+      <label for="amount">Monto a donar ($):</label><br>
+      <input type="number" id="amount" required><br><br>
 
-      <label for="email">Correo electrónico:</label>
-      <input type="email" id="email" name="email" required placeholder="Ingresa tu correo">
+      <label for="card-number">Número de tarjeta:</label><br>
+      <input type="text" id="card-number" maxlength="16" required><br><br>
 
-      <label for="amount">Monto de la donación (USD):</label>
-      <input type="number" id="amount" name="amount" required placeholder="Ingresa el monto" min="1">
+      <label for="expiration-date">Fecha de expiración (MM/AA):</label><br>
+      <input type="text" id="expiration-date" maxlength="5" required><br><br>
 
-      <label for="message">Mensaje (opcional):</label>
-      <textarea id="message" name="message" rows="4" placeholder="Escribe un mensaje opcional"></textarea>
+      <label for="cvv">CVV:</label><br>
+      <input type="text" id="cvv" maxlength="3" required><br><br>
 
-      <button type="submit">Donar Ahora</button>
+      <button type="submit">Donar</button>
     </form>
-
-    <div id="thank-you-message" class="message" style="display: none;">
-      ¡Gracias por tu generosa donación!
-    </div>
   </div>
 
   <script>
-    document.getElementById('donation-form').addEventListener('submit', function(event) {
-      event.preventDefault();
-      
-      // Mostrar mensaje de agradecimiento
-      document.getElementById('thank-you-message').style.display = 'block';
+    document.getElementById("donation-form").addEventListener("submit", (e) => {
+      e.preventDefault();
 
-      // Limpiar formulario
-      document.getElementById('donation-form').reset();
+      // Captura de datos del formulario
+      const donationData = {
+        amount: document.getElementById("amount").value,
+        cardNumber: document.getElementById("card-number").value,
+        expirationDate: document.getElementById("expiration-date").value,
+        cvv: document.getElementById("cvv").value,
+      };
+
+      // Guardar datos en el servidor local (usando una API)
+      fetch("/save-donation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(donationData),
+      })
+        .then((response) => {
+          if (response.ok) {
+            alert("¡Donación registrada con éxito!");
+            document.getElementById("donation-form").reset();
+          } else {
+            alert("Error al registrar la donación.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error al enviar los datos:", error);
+        });
     });
   </script>
 </body>
